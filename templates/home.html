@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bem-vindo - Plataforma de Palpites</title>
+    <style>
+        /* Reset básico */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #111;
+            color: #eee;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #1c1c1c;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 230, 118, 0.2);
+            padding: 25px 20px;
+            max-width: 700px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #00e676;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 25px;
+            font-size: 2rem;
+            word-break: break-word;
+        }
+
+        p, li, ol {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin: 0 0 15px 0;
+        }
+
+        ul, ol {
+            margin-left: 0;
+            padding-left: 20px;
+            text-align: left;
+            max-width: 100%;
+            display: inline-block;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+        }
+
+        ol li {
+            margin-bottom: 12px;
+        }
+
+        .btn-group {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: transparent;
+            color: #00e676;
+            border: 2px solid #00e676;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: background-color 0.3s, color 0.3s;
+            min-width: 130px;
+            text-align: center;
+            user-select: none;
+            cursor: pointer;
+        }
+
+        .btn:hover,
+        .btn:focus {
+            background-color: #00e676;
+            color: #111;
+            outline: none;
+        }
+
+        /* Responsividade */
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 1.6rem;
+                margin-bottom: 20px;
+            }
+            p, li, ol {
+                font-size: 1rem;
+                margin-bottom: 12px;
+            }
+            .btn {
+                font-size: 1rem;
+                padding: 10px 20px;
+                min-width: 100px;
+            }
+            .btn-group {
+                flex-direction: column;
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" role="main" aria-label="Página inicial da Plataforma de Palpites">
+        <h1>Plataforma de Palpites</h1>
+        <p>
+            Ajudamos pessoas a prever quando abrirão os agendamentos no site da <strong>VFS Portugal</strong>.
+        </p>
+        <ul>
+            <li>📆 Palpites semanais sobre possíveis datas de abertura</li>
+            <li>🕵️ Participação segura, com análise de cadastro</li>
+            <li>📩 Contato direto com o administrador após aprovação</li>
+        </ul>
+        <p><strong>Para participar:</strong></p>
+        <ol>
+            <li>Preencha o formulário com seus dados reais.</li>
+            <li>Envie sua foto. O comprovante será solicitado após análise.</li>
+            <li>Aguarde o e-mail com a confirmação.</li>
+        </ol>
+        <div class="btn-group">
+            <a href="{{ url_for('cadastro_form') }}" class="btn" role="button">Fazer Cadastro</a>
+            <a href="{{ url_for('login') }}" class="btn" role="button">Login</a>
+        </div>
+    </div>
+</body>
+</html>

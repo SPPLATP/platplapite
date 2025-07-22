@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pagamento Semanal - 500 Kz</title>
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #111;
+            color: #eee;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0 15px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        .container {
+            background-color: #1c1c1c;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 230, 118, 0.2);
+            max-width: 700px;
+            width: 100%;
+            padding: 30px 25px;
+            margin: 30px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        h2, h3 {
+            color: #00e676;
+            font-family: 'Courier New', monospace;
+            margin: 0 0 10px 0;
+            word-wrap: break-word;
+            text-align: center;
+        }
+        h2 {
+            font-size: 1.8rem;
+        }
+        h3 {
+            font-size: 1.4rem;
+        }
+        p {
+            font-size: 1.1rem;
+            margin: 0;
+            line-height: 1.5;
+            word-wrap: break-word;
+            text-align: center;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+        input[type="file"],
+        input[type="text"] {
+            padding: 10px;
+            border-radius: 6px;
+            border: none;
+            font-size: 1rem;
+            width: 100%;
+            max-width: 400px;
+            outline: none;
+            background-color: #222;
+            color: #eee;
+        }
+        input[type="file"] {
+            color: #00e676;
+        }
+        input[type="radio"] {
+            accent-color: #00e676;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        label {
+            cursor: pointer;
+            user-select: none;
+            font-weight: 600;
+        }
+        .option-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: #00e676;
+            border: none;
+            color: #111;
+            font-weight: bold;
+            padding: 12px 28px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 1.1rem;
+            width: 180px;
+        }
+        button:hover,
+        button:focus {
+            background-color: #00c863;
+            outline: none;
+        }
+        a {
+            color: #00e676;
+            text-decoration: none;
+            text-align: center;
+            font-weight: 600;
+        }
+        a:hover,
+        a:focus {
+            text-decoration: underline;
+            outline: none;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .container {
+                max-width: 600px;
+                padding: 25px 20px;
+            }
+            h2 {
+                font-size: 1.6rem;
+            }
+            h3 {
+                font-size: 1.3rem;
+            }
+            p {
+                font-size: 1rem;
+            }
+            .option-group {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+            input[type="text"], input[type="file"] {
+                max-width: 100%;
+            }
+            button {
+                width: 100%;
+                font-size: 1.05rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px 15px;
+                margin: 20px 0;
+                height: auto;
+            }
+            h2 {
+                font-size: 1.4rem;
+            }
+            h3 {
+                font-size: 1.1rem;
+            }
+            p {
+                font-size: 0.95rem;
+            }
+            .option-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+            input[type="text"], input[type="file"] {
+                max-width: 100%;
+                font-size: 1rem;
+            }
+            button {
+                width: 100%;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="container" role="main" aria-label="Pagamento Semanal">
+        <h2>Pagamento Semanal (10.000 Kz)</h2>
+
+        <p>Para enviar seu palpite desta semana, é necessário pagar <strong>10.000 Kz</strong>.</p>
+
+        <section>
+            <h3>💳 Transferência por IBAN</h3>
+            <p><strong>:</strong> AO06 0040 0000 7469 0634 10194</p>
+            <p>ABBEZ HOPE ESPRESS SERVICOS COMERCIO</p>
+        </section>
+
+        <section>
+            <h3>🏧 Levantamento Sem Cartão</h3>
+            <p>Escolha uma forma de comprovar seu pagamento:</p>
+
+            <form id="formPagamento" method="POST" enctype="multipart/form-data" aria-label="Formulário de envio comprovante ou código de levantamento">
+                <div class="option-group" role="radiogroup" aria-labelledby="tipoComprovanteLabel">
+                    <label id="tipoComprovanteLabel" for="opcaoComprovante">
+                        <input type="radio" id="opcaoComprovante" name="formaComprovacao" value="comprovante" checked>
+                        Enviar Comprovante
+                    </label>
+                    <label for="opcaoCodigo">
+                        <input type="radio" id="opcaoCodigo" name="formaComprovacao" value="codigo">
+                        Informar Referência e Código
+                    </label>
+                </div>
+
+                <div id="blocoComprovante">
+                    <label for="comprovante">Upload do comprovante (foto ou PDF):</label>
+                    <input type="file" id="comprovante" name="comprovante" accept="image/*,.pdf" aria-describedby="comprovanteHelp" required />
+                    <small id="comprovanteHelp" style="color:#aaa; display:block; margin-top:4px; text-align:center;">
+                      Aceitamos fotos, PNG, JPG, PDF até 5MB.
+                    </small>
+                </div>
+
+                <div id="blocoCodigo" style="display:none;">
+                    <label for="referencia">Número de Referência:</label>
+                    <input type="text" id="referencia" name="referencia" placeholder="Digite o número de referência" autocomplete="off" />
+
+                    <label for="codigo_levantamento">Código para Levantamento:</label>
+                    <input type="text" id="codigo_levantamento" name="codigo_levantamento" placeholder="Digite o código para levantamento" autocomplete="off" />
+                </div>
+
+                <button type="submit" aria-live="polite">Confirmar Pagamento</button>
+            </form>
+        </section>
+
+        <a href="/logout" role="button" aria-label="Sair do sistema">Sair</a>
+    </main>
+
+    <script>
+        const radioComprovante = document.getElementById('opcaoComprovante');
+        const radioCodigo = document.getElementById('opcaoCodigo');
+        const blocoComprovante = document.getElementById('blocoComprovante');
+        const blocoCodigo = document.getElementById('blocoCodigo');
+        const comprovanteInput = document.getElementById('comprovante');
+        const referenciaInput = document.getElementById('referencia');
+        const codigoInput = document.getElementById('codigo_levantamento');
+        const form = document.getElementById('formPagamento');
+
+        function atualizarCampos() {
+            if (radioComprovante.checked) {
+                blocoComprovante.style.display = 'block';
+                blocoCodigo.style.display = 'none';
+
+                comprovanteInput.required = true;
+                referenciaInput.required = false;
+                codigoInput.required = false;
+
+                referenciaInput.value = '';
+                codigoInput.value = '';
+            } else if (radioCodigo.checked) {
+                blocoComprovante.style.display = 'none';
+                blocoCodigo.style.display = 'block';
+
+                comprovanteInput.required = false;
+                referenciaInput.required = true;
+                codigoInput.required = true;
+
+                comprovanteInput.value = '';
+            }
+        }
+
+        // Atualiza campos no carregamento
+        atualizarCampos();
+
+        // Eventos para radio buttons
+        radioComprovante.addEventListener('change', atualizarCampos);
+        radioCodigo.addEventListener('change', atualizarCampos);
+
+        // Validação extra no envio
+        form.addEventListener('submit', function(e) {
+            if (radioComprovante.checked) {
+                if (!comprovanteInput.value) {
+                    e.preventDefault();
+                    alert('Por favor, envie o comprovante.');
+                    comprovanteInput.focus();
+                }
+            } else if (radioCodigo.checked) {
+                if (!referenciaInput.value.trim() || !codigoInput.value.trim()) {
+                    e.preventDefault();
+                    alert('Por favor, preencha o número de referência e o código para levantamento.');
+                    if (!referenciaInput.value.trim()) {
+                        referenciaInput.focus();
+                    } else {
+                        codigoInput.focus();
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

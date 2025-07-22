@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Painel Admin - Estatísticas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body {
+            background: #111;
+            color: #eee;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #00e676;
+            margin-bottom: 30px;
+        }
+        .stat-box {
+            background: #1e1e1e;
+            border: 1px solid #00e676;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        .stat-box h2 {
+            margin: 0;
+            font-size: 2em;
+        }
+        .stat-box p {
+            margin: 5px 0 0;
+            font-size: 1.1em;
+            color: #ccc;
+        }
+        @media (max-width: 600px) {
+            .stat-box h2 {
+                font-size: 1.6em;
+            }
+            .stat-box p {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Estatísticas Gerais</h1>
+
+        <div class="stat-box">
+            <h2>{{ total }}</h2>
+            <p>Usuários cadastrados</p>
+        </div>
+        <div class="stat-box">
+            <h2>{{ aprovados }}</h2>
+            <p>Aprovados</p>
+        </div>
+        <div class="stat-box">
+            <h2>{{ pendentes }}</h2>
+            <p>Pendentes</p>
+        </div>
+        <div class="stat-box">
+            <h2>{{ rejeitados }}</h2>
+            <p>Rejeitados</p>
+        </div>
+        <div class="stat-box">
+            <h2>{{ novos_hoje }}</h2>
+            <p>Novos cadastros hoje</p>
+        </div>
+    </div>
+</body>
+</html>

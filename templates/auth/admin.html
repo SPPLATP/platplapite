@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8" />
+    <title>Painel de Aprovação - Plataforma Palpite</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+
+    <style>
+        .payment-info p {
+            color: #e1e4e8; /* cor clara igual do usuário */
+            margin: 0 0 6px 0;
+        }
+        body {
+            background-color: #0d1117;
+            color: #e1e4e8;
+        }
+        .container {
+            margin-top: 40px;
+        }
+        .card {
+            background: linear-gradient(135deg, #161b22, #1c222b);
+            border: 1px solid #23863688;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .btn-approve {
+            background-color: #238636;
+            color: white;
+            border: 1px solid #2ea043;
+        }
+        .btn-reject {
+            background-color: #da3633;
+            color: white;
+            border: 1px solid #f85149;
+        }
+        img.thumb {
+            width: 100px;
+            border-radius: 12px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #23863688;
+        }
+        .user-info p {
+            margin: 0;
+            padding: 2px 0;
+            color: #e1e4e8;
+        }
+        .user-info h5 {
+            color: #ffffff;
+        }
+        .comprovante-box {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+       <div class="header">
+    <h2><i class="bi bi-shield-check"></i> Painel de Aprovação</h2>
+    <div>
+        <a href="{{ url_for('admin_usuarios') }}" class="btn btn-outline-light">
+            <i class="bi bi-people"></i> Ver Usuários
+        </a>
+        <a href="{{ url_for('admin_palpites') }}" class="btn btn-outline-light">
+            <i class="bi bi-pencil-square"></i> Postar Palpite
+        </a>
+        <a href="{{ url_for('logout') }}" class="btn btn-outline-light">
+            <i class="bi bi-box-arrow-right"></i> Sair
+        </a>
+    </div>
+</div>
+        </div>
+
+        <!-- 🚀 Usuários pendentes -->
+        {% if users %}
+            {% for user in users %}
+            <div class="card mb-3">
+                <div class="row align-items-center">
+                    <div class="col-md-2 text-center">
+                        {% if user['photo'] %}
+                            <img src="{{ user['photo'] }}" class="thumb mb-2" />
+                        {% else %}
+                            <div class="text-muted">Sem foto</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6 user-info">
+                        <h5>{{ user['first_name'] }} {{ user['last_name'] }}</h5>
+                        <p><strong>Email:</strong> {{ user['email'] }}</p>
+                        <p><strong>Telefone:</strong> {{ user['phone'] }}</p>
+                        <p><strong>Cadastro em:</strong> {{ user['created_at'] }}</p>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <form action="{{ url_for('aprovar_user', user_id=user['id']) }}" method="post" style="margin-bottom: 5px;">
+                            <button type="submit" class="btn btn-approve">Aprovar Usuário</button>
+                        </form>
+                        <form action="{{ url_for('rejeitar_user', user_id=user['id']) }}" method="post">
+                            <button type="submit" class="btn btn-reject">Rejeitar Usuário</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="alert alert-info">Nenhum usuário pendente.</div>
+        {% endif %}
+
+       <!-- 🚀 Pagamentos pendentes -->
+        {% if pagamentos %}
+            {% for pagamento in pagamentos %}
+            <div class="card mt-4">
+                <h5 style="color: #ffffff;">Pagamento de {{ pagamento['user_name'] }}</h5>
+                <div class="payment-info">
+                    <p><strong>Enviado em:</strong> {{ pagamento['data_envio'] }}</p>
+                    <p><strong>Forma:</strong> {{ pagamento['forma_comprovacao']|capitalize }}</p>
+
+                    <div class="comprovante-box">
+                        {% if pagamento['forma_comprovacao'] == 'comprovante' and pagamento['comprovante_path'] %}
+                            {% if pagamento['comprovante_path'].endswith('.pdf') %}
+                                <a href="{{ url_for('static', filename='comprovantes/' ~ pagamento['comprovante_path']) }}" target="_blank" class="btn btn-outline-light">
+                                    📄 Ver Comprovante PDF
+                                </a>
+                            {% else %}
+                                <img src="{{ url_for('static', filename='comprovantes/' ~ pagamento['comprovante_path']) }}" class="thumb mb-2">
+                            {% endif %}
+                        {% elif pagamento['forma_comprovacao'] == 'codigo' %}
+                            <p><strong>Referência:</strong> {{ pagamento['referencia'] or 'N/A' }}</p>
+                            <p><strong>Código de levantamento:</strong> {{ pagamento['codigo_levantamento'] or 'N/A' }}</p>
+                        {% else %}
+                            <p><em>Sem comprovante enviado.</em></p>
+                        {% endif %}
+                    </div>
+                </div>
+                <form action="{{ url_for('aprovar_pagamento', pagamento_id=pagamento['id']) }}" method="post" style="display:inline-block;">
+                    <button type="submit" class="btn btn-approve">Aprovar Pagamento</button>
+                </form>
+                <form action="{{ url_for('rejeitar_pagamento', pagamento_id=pagamento['id']) }}" method="post" style="display:inline-block;">
+                    <button type="submit" class="btn btn-reject">Rejeitar Pagamento</button>
+                </form>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="alert alert-info">Nenhum pagamento pendente.</div>
+        {% endif %}
+
+    </div>
+</body>
+</html>

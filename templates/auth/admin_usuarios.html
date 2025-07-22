@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Usuários Cadastrados - Plataforma Palpite</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body { background-color: #0d1117; color: #e1e4e8; }
+        .container { margin-top: 40px; }
+        .card { background: linear-gradient(135deg, #161b22, #1c222b); border: 1px solid #23863688; padding: 20px; border-radius: 10px; }
+        img.thumb { width: 100px; border-radius: 12px; border: 2px solid #238636; }
+        .user-details { color: #f0f0f0; font-size: 18px; font-weight: bold; }
+        .info-box { background-color: #161b22; padding: 12px; border-radius: 8px; margin-top: 8px; }
+        .info-box p { color: #d1d5da; font-size: 16px; padding: 4px 0; }
+        .btn-delete { background-color: #da3633; color: white; border: 1px solid #f85149; }
+        .approved-count { background-color: #238636; padding: 12px; border-radius: 8px; margin-bottom: 20px; text-align: center; }
+        .approved-count h4 { color: #fff; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2><i class="bi bi-people"></i> Usuários Cadastrados</h2>
+        <a href="{{ url_for('admin') }}" class="btn btn-outline-light"><i class="bi bi-arrow-left"></i> Voltar</a>
+
+        <!-- Exibição do número de usuários aprovados -->
+        <div class="approved-count">
+            <h4><i class="bi bi-check-circle"></i> Usuários Aprovados: {{ total_aprovados }}</h4>
+        </div>
+
+        {% if usuarios %}
+            {% for user in usuarios %}
+            <div class="card mb-3">
+                <div class="row align-items-center">
+                    <div class="col-md-2 text-center">
+                        {% if user['photo'] %}
+                            <img src="{{ user['photo'] }}" class="thumb mb-2" />
+                        {% else %}
+                            <div class="text-muted">Sem foto</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <div class="info-box">
+                            <h5 class="user-details"><i class="bi bi-person"></i> {{ user['first_name'] }} {{ user['last_name'] }}</h5>
+                            <p><strong>Email:</strong> {{ user['email'] }}</p>
+                            <p><strong>Telefone:</strong> {{ user['phone'] }}</p>
+                            <p><strong>Cadastro em:</strong> {{ user['created_at'] }}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <form action="{{ url_for('excluir_usuario', user_id=user['id']) }}" method="post">
+                            <button type="submit" class="btn btn-delete">Excluir Usuário</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="alert alert-info">Nenhum usuário cadastrado.</div>
+        {% endif %}
+    </div>
+</body>
+</html>

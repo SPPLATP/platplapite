@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Palpite do Dia</title>
+  <style>
+    body {
+      background: #0d0d0d;
+      color: #00ff88;
+      font-family: 'Courier New', Courier, monospace;
+      padding: 30px 16px;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 600px;
+      border: 2px solid #00ff88;
+      padding: 24px;
+      border-radius: 10px;
+      box-shadow: 0 0 12px #00ff88, 0 0 24px #00ff88 inset;
+      background-color: #111;
+      animation: pulseGlow 3s infinite ease-in-out;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 12px #00ff88, 0 0 24px #00ff88 inset; }
+      50% { box-shadow: 0 0 20px #00ffaa, 0 0 40px #00ffaa inset; }
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px #00ff88;
+    }
+
+    .palpite-card {
+      background: rgba(0, 255, 136, 0.05);
+      border: 1px solid #00ff88;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 24px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .palpite-card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 20px #00ffaa;
+    }
+
+    .palpite-info {
+      margin-bottom: 10px;
+    }
+
+    .label {
+      font-weight: bold;
+      color: #00ffaa;
+    }
+
+    .alert-info {
+      text-align: center;
+      padding: 16px;
+      border: 2px dashed #00ff88;
+      border-radius: 6px;
+      background: #001a12;
+      color: #00ff88;
+      text-shadow: 0 0 6px #00ffaa;
+      font-size: 1.1rem;
+    }
+
+    .btn-voltar {
+      display: block;
+      margin: 20px auto 0;
+      padding: 10px 24px;
+      background-color: transparent;
+      border: 2px solid #00ff88;
+      border-radius: 6px;
+      color: #00ff88;
+      text-decoration: none;
+      text-align: center;
+      transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+    }
+
+    .btn-voltar:hover {
+      background-color: #00ff88;
+      color: #111;
+      box-shadow: 0 0 12px #00ff88, 0 0 24px #00ff88;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 16px;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Palpite do Dia</h2>
+
+    {% if palpites %}
+      {% for palpite in palpites %}
+        <div class="palpite-card">
+          <div class="palpite-info"><span class="label">Dia:</span> {{ palpite.dia }}</div>
+          <div class="palpite-info"><span class="label">Semana:</span> {{ palpite.semana }}</div>
+          <div class="palpite-info"><span class="label">Horários:</span>
+            {% for h in palpite.horarios %}
+              {{ h }}{% if not loop.last %}, {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <div class="alert-info">Nenhum palpite disponível no momento.<br>Atualizaremos em breve!</div>
+    {% endif %}
+
+    <a href="{{ url_for('home') }}" class="btn-voltar">⬅ Voltar</a>
+  </div>
+</body>
+</html>
